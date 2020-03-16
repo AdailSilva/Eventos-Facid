@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Eventos Facid</title>
+
+<!--Import Google Icon Font-->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet"
+	href="materialize/css/materialize.min.css" media="screen,projection" />
+
+<!--Let browser know website is optimized for mobile-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- importante estilos css -->
+<link rel="stylesheet" href="style/style.css" />
+
+<!-- deixar rodapé sempre em baixo -->
+<style type="text/css">
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 0 auto;
+}
+</style>
+
+</head>
+
+<body>
+
+	<!-- Components - Navbar - Right Aligned Links -->
+	<header>
+		<nav>
+			<div class="nav-wrapper">
+				<a href="#" class="brand-logo">Evento</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="/cadastrarEvento"
+						class="waves-effect waves-light btn"><i
+							class="material-icons left">library_add</i>Cadastrar Evento</a></li>
+					<li><a href="/eventos" class="waves-effect waves-light btn"><i
+							class="material-icons left">format_list_bulleted</i>Lista de
+							Eventos</a></li>
+					<li><a href="https://www.arduino.cc/"
+						class="waves-effect waves-light btn"><i
+							class="material-icons left">wifi</i>ESP32 / Arduino</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<main> <!-- <h1>Evento</h1> -->
+	<h6>
+		<font color="gray"><b>Cadastro de Eventos Facid - Trabalho
+				AP1 - Prof. Vinícius Pádua</b></font>
+	</h6>
+	<h6>
+		<font color="red">REST/RESTful WebServices com troca de dados
+			utilizando JSON</font>
+	</h6>
+
+	<!-- <h3>
+		<a href="/eventos" class="waves-effect waves-light btn"><i
+			class="material-icons left">format_list_bulleted</i>Lista de Eventos</a>
+	</h3> --> <!-- segundo "evento" mesmo nome no controller (objeto ModelAndView) -->
+	<div th:each="evento : ${evento}" class="container detalhesEvento">
+		<h5>
+			<font color="green"><b>Detalhes do Evento</b></font>
+		</h5>
+		<div class="row">
+			<p>
+				<font color="blue"><b>Nome: </b></font><span
+					th:text="${evento.nome}"></span>
+			</p>
+			<p>
+				<font color="blue"><b>Local: </b></font><span
+					th:text="${evento.local}"></span>
+			</p>
+			<p>
+				<font color="blue"><b>Data: </b></font><span
+					th:text="${evento.data}"></span>
+			</p>
+			<p>
+				<font color="blue"><b>Horário: </b></font><span
+					th:text="${evento.horario}"></span>
+			</p>
+		</div>
+	</div>
+
+	<div class="container mensagens">
+		<!-- inserindo mensagens -->
+		<th:block th:include="mensagemValidacao"></th:block>
+	</div>
+
+	<div class="container formConvidado">
+		<h5>
+			<font color="green"><b>Adicione aqui os Convidados</b></font>
+		</h5>
+		<form action="" method="post">
+			<font color="red"><b>Nome: </b></font><input type="text" value=""
+				name="nomeConvidado" placeholder="Digite seu Nome Completo" /> <font
+				color="red"><b>RG: </b></font><input type="text" value="" name="rg"
+				placeholder="exemplo: 2002xxx084xxx/SSP-CE" />
+			<button type="submit" class="waves-effect waves-light btn">
+				<i class="material-icons left">save</i>Adicionar Convidado
+			</button>
+		</form>
+	</div>
+
+	<!-- mostrar convidados --> <!-- <h5>Lista Convidados:</h5> --> <!-- <div class="container" th:each="convidado : ${convidados}"> -->
+	<table class="container tabelaConvidado">
+		<thead>
+			<tr>
+				<th>Nome do Convidado</th>
+				<th>RG</th>
+				<th>Deletar</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr th:each="convidado : ${convidados}">
+				<td><span th:text="${convidado.nomeConvidado}"></span></td>
+				<td><span th:text="${convidado.rg}"></span></td>
+				<td><a
+					th:href="${(#mvc.url('EC#deletarConvidado').arg(0, convidado.rg)).build()}"><i
+						class="material-icons left">delete</i></a></td>
+			</tr>
+		</tbody>
+
+		<!-- <div class="row">
+			<div class="input-field col s6">
+				<font color="gren">Nome: </font>
+				<p>
+					<span th:text="${convidado.nomeConvidado}"></span>
+				</p>
+			</div>
+			<div class="input-field col s3">
+				<font color="gren">RG: </font>
+				<p>
+					<span th:text="${convidado.rg}"></span>
+				</p>
+			</div>
+		</div> -->
+
+	</table>
+	<!-- </div> --> </main>
+	<footer class="page-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">Trabalho AP1 - Prof. Vinícius Pádua</h5>
+					<p class="grey-text text-lighten-4">Conceitos sobre Web
+						Services, REST/RESTful e JSON</p>
+					<p class="grey-text text-lighten-4">Referências utilizadas ao
+						lado.</p>
+					<p class="grey-text text-lighten-4">Equipe: Adail Silva, João
+						Henrique, Franklin Aguiar, Felipe Costa</p>
+					<p class="grey-text text-lighten-4">Bruna Kelly, Breno Bispo,
+						Elber Sousa, João Paulo, Leonam Moura e Camila Reis.</p>
+
+				</div>
+				<div class="col l4 offset-l2 s12">
+					<h5 class="white-text">Links</h5>
+					<ul>
+						<li><a class="grey-text text-lighten-3"
+							href="https://pt.wikipedia.org/wiki/REST">REST</a></li>
+						<li><a class="grey-text text-lighten-3"
+							href="https://arest.io/home">aREST</a></li>
+						<li><a class="grey-text text-lighten-3"
+							href="https://pt.wikipedia.org/wiki/JSON">JSON</a></li>
+						<li><a class="grey-text text-lighten-3"
+							href="https://pt.wikipedia.org/wiki/SOAP">SOAP</a></li>
+						<li><a class="grey-text text-lighten-3"
+							href="https://pt.wikipedia.org/wiki/XML">XML</a></li>
+						<li><a class="grey-text text-lighten-3"
+							href="http://materializecss.com/">Materialize</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">
+				© 2018 AdailSilva Copyright - Todos os direitos reservados. <a
+					class="grey-text text-lighten-4 right"
+					href="https://www.facebook.com/codeinServer">facebook</a>
+			</div>
+		</div>
+	</footer>
+
+	<!--JavaScript at end of body for optimized loading-->
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</body>
+</html>
